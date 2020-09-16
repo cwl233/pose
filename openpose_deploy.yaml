@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openpose
+  labels:
+    app: openpose
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openpose
+  template:
+    metadata:
+      labels:
+        app: openpose
+    spec:
+      nodeSelector:
+        name: edge-node-3
+      containers:
+      - name: openpose
+        imagePullPolicy: IfNotPresent
+        image: openpose/linkevision-gpu:latest
+        env:
+        - name: VIDEO_STREAM_ADDRESS
+          value: "rtsp://admin:FHRGLD@202.38.79.193:10554/H.264"
+        - name: GRPC_SERVER_ADDRESS
+          value: "202.38.86.69:50051"
